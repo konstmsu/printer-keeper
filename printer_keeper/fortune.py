@@ -6,6 +6,9 @@ from pathlib import Path
 import os
 import subprocess
 from datetime import datetime
+import logging
+
+logger = logging.getLogger("printer_keeper")
 
 env = Environment(
     loader=PackageLoader("printer_keeper"), autoescape=select_autoescape()
@@ -179,6 +182,15 @@ def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("printer_keeper.log", encoding="utf8"),
+            logging.StreamHandler(),
+        ],
+    )
+
     html_path = Path("tmp/fortune.html")
     pdf_path = Path("tmp/fortune.pdf")
 
@@ -188,10 +200,15 @@ if __name__ == "__main__":
     html_path.unlink(missing_ok=True)
     pdf_path.unlink(missing_ok=True)
 
-    fortune = generate_fortune_html("Доброе утро, прекрасный мир!", asof=datetime.now())
+    message = "Доброе утро, прекрасный мир!"
+    asof = datetime.now()
+    logger.info("Generating HTML for %s asof %s", message, asof)
+    fortune = generate_fortune_html(message, asof=asof)
+    logger.info("Writing HTML to %s", html_path)
     html_path.write_text(fortune, encoding="utf8")
 
     # Convert to PDF. Or is there an easier way to print HTML?
+    logger.info("Converting to PDF in %s", pdf_path)
     subprocess.run(
         [
             "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
@@ -204,4 +221,7 @@ if __name__ == "__main__":
     )
 
     # send to printer
+    logger.info("Printing %s", pdf_path)
     os.startfile(pdf_path, "print")
+
+    logger.info("Done")
