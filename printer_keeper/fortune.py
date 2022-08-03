@@ -1,4 +1,5 @@
 import random
+import tempfile
 from typing import Literal
 from jinja2 import Environment, PackageLoader, select_autoescape
 import re
@@ -181,24 +182,9 @@ def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
     return template.render(parts=parts)
 
 
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler("printer_keeper.log", encoding="utf8"),
-            logging.StreamHandler(),
-        ],
-    )
-
-    html_path = Path("tmp/fortune.html")
-    pdf_path = Path("tmp/fortune.pdf")
-
-    html_path.parent.mkdir(parents=True, exist_ok=True)
-
-    # cleanup
-    html_path.unlink(missing_ok=True)
-    pdf_path.unlink(missing_ok=True)
+def main():
+    html_path = Path(tempfile.mkstemp(prefix="fortune_", suffix=".html")[1])
+    pdf_path = Path(tempfile.mkstemp(prefix="fortune_", suffix=".pdf")[1])
 
     message = "Доброе утро, прекрасный мир!"
     asof = datetime.now()
@@ -223,5 +209,21 @@ if __name__ == "__main__":
     # send to printer
     logger.info("Printing %s", pdf_path)
     os.startfile(pdf_path, "print")
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("printer_keeper.log", encoding="utf8"),
+            logging.StreamHandler(),
+        ],
+    )
+
+    try:
+        main()
+    except:
+        logger.exception("Application failed")
 
     logger.info("Done")
