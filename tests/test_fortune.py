@@ -1,11 +1,15 @@
 import random
-from printer_keeper.fortune import format_datetime, generate_fortune_html
+from printer_keeper.fortune import format_date, format_datetime, generate_fortune_html
 from pathlib import Path
 import re
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 random.seed(42)
+
+
+def test_format_day():
+    assert format_date(date(2022, 7, 15), include_year=False) == "пятнадцатое июля"
 
 
 def test_format_datetime():

@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 import os
 import subprocess
-from datetime import datetime
+from datetime import datetime, date
 import logging
 
 logger = logging.getLogger("printer_keeper")
@@ -16,13 +16,13 @@ env = Environment(
 )
 
 
-def format_datetime(dt: datetime) -> str:
+def format_date(d: date, *, include_year: bool) -> str:
     def year():
-        if dt.year == 2022:
+        if d.year == 2022:
             return "две тысячи двадцать второго"
-        if dt.year == 2023:
+        if d.year == 2023:
             return "две тысячи двадцать третьего"
-        if dt.year == 2024:
+        if d.year == 2024:
             return "две тысячи двадцать четвёртого"
         # TODO make generic
         raise NotImplemented()
@@ -74,6 +74,16 @@ def format_datetime(dt: datetime) -> str:
         "тридцатое",
         "тридцать первое",
     ]
+
+    parts = [days[d.day - 1], months[d.month - 1]]
+
+    if include_year:
+        parts.append(f"{year()} года")
+
+    return " ".join(parts)
+
+
+def format_datetime(dt: datetime) -> str:
     simple_numbers = [
         "ноль",
         ("один", "одна"),
@@ -138,8 +148,7 @@ def format_datetime(dt: datetime) -> str:
         return word
 
     parts = [
-        f"{days[dt.day-1]} {months[dt.month-1]}",
-        f"{year()} года,",
+        format_date(dt.date(), include_year=True) + ",",
         f"{number(dt.hour, gender='male')} {inflect('час', dt.hour)}",
         f"{number(dt.minute, gender='female')} {inflect('минута', dt.minute)}",
     ]
@@ -148,13 +157,15 @@ def format_datetime(dt: datetime) -> str:
 
 # TODO generate random phrase and colors
 def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
-    message = f"{message_part}\nСейчас {format_datetime(asof)}"
+    message = f"{message_part}\nСегодня {format_date(asof, include_year=False)}"
 
     def format_part(m: re.Match):
         word = m.group("word")
         if word:
+            # TODO make random colors given contrast is high enough
             color = random.choice(
                 [
+                    "black",
                     "red",
                     "green",
                     "blue",
