@@ -157,7 +157,10 @@ def format_datetime(dt: datetime) -> str:
 
 # TODO generate random phrase and colors
 def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
-    message = f"{message_part}\nСегодня {format_date(asof, include_year=False)}"
+    message = f"""Ура! Доброе утро!
+Сегодня у нас {format_date(asof, include_year=False)} {asof.year}.
+{message_part}
+Хорошего дня!"""
 
     def format_part(m: re.Match):
         word = m.group("word")
@@ -193,11 +196,16 @@ def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
     return template.render(parts=parts)
 
 
+def get_messages():
+    phrases = Path(__file__).parent / "phrases.txt"
+    return [l.strip() for l in phrases.read_text(encoding="utf8").splitlines()]
+
+
 def main():
     html_path = Path(tempfile.mkstemp(prefix="fortune_", suffix=".html")[1])
     pdf_path = Path(tempfile.mkstemp(prefix="fortune_", suffix=".pdf")[1])
 
-    message = "Доброе утро, прекрасный мир!"
+    message = random.choice(get_messages())
     asof = datetime.now()
     logger.info("Generating HTML for %s asof %s", message, asof)
     fortune = generate_fortune_html(message, asof=asof)

@@ -1,5 +1,10 @@
 import random
-from printer_keeper.fortune import format_date, format_datetime, generate_fortune_html
+from printer_keeper.fortune import (
+    format_date,
+    format_datetime,
+    generate_fortune_html,
+    get_messages,
+)
 from pathlib import Path
 import re
 from datetime import date, datetime, timedelta
@@ -38,9 +43,17 @@ def test_format_datetime():
         assert re.search("минут", res)
 
 
+def test_messages():
+    messages = get_messages()
+    assert len(messages) > 2
+    for m in messages:
+        assert len(m) > 10
+    assert "Делу – время, потехе – час." in messages
+
+
 def test_template(snapshot):
     html = generate_fortune_html(
-        "Доброе утро, мир!",
+        "Кукареку!",
         asof=datetime(2022, 8, 4, 6, 45, tzinfo=ZoneInfo("Asia/Singapore")),
     )
     Path("generated.html").write_text(html, encoding="utf8")
