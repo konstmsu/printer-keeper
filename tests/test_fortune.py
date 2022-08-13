@@ -47,7 +47,8 @@ def test_messages():
     messages = get_messages()
     assert len(messages) > 2
     for m in messages:
-        assert len(m) > 10
+        assert len(m) > 5
+        assert m[-1] in ".!"
     assert "Делу – время, потехе – час." in messages
 
 

@@ -198,7 +198,8 @@ def generate_fortune_html(message_part: str, *, asof: datetime) -> str:
 
 def get_messages():
     phrases = Path(__file__).parent / "phrases.txt"
-    return [l.strip() for l in phrases.read_text(encoding="utf8").splitlines()]
+    stripped = [l.strip() for l in phrases.read_text(encoding="utf8").splitlines()]
+    return [l for l in stripped if l]
 
 
 def main():
