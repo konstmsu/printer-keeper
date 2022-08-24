@@ -1,50 +1,23 @@
+import os
 import random
-from printer_keeper.datetime_formatting import format_date, format_datetime
-from printer_keeper.fortune import (
-    generate_fortune_html,
-    get_messages,
-)
+import subprocess
+from datetime import datetime
 from pathlib import Path
-import re
-from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
+
+from printer_keeper.arithmetics import ArithmeticProblemGenerator
+from printer_keeper.fortune import (
+    MessageGenerator,
+    MessageHtmlFormatter,
+    MorningFortuneGenerator,
+)
 from snapshottest.pytest import SnapshotTest
 
 random.seed(42)
 
 
-def test_format_day():
-    assert format_date(date(2022, 7, 15), include_year=False) == "пятнадцатое июля"
-
-
-def test_format_datetime():
-    assert (
-        format_datetime(datetime(2022, 7, 15, 6, 25))
-        == "пятнадцатое июля две тысячи двадцать второго года, шесть часов двадцать пять минут"
-    )
-    assert (
-        format_datetime(datetime(2023, 1, 1, 20, 50))
-        == "первое января две тысячи двадцать третьего года, двадцать часов пятьдесят минут"
-    )
-    assert (
-        format_datetime(datetime(2023, 9, 29, 1, 31))
-        == "двадцать девятое сентября две тысячи двадцать третьего года, один час тридцать одна минута"
-    )
-    for i in range(0, 1000):
-        dt = datetime(2022, 1, 1, 13, 45) + timedelta(days=i, minutes=i)
-        res = format_datetime(dt)
-        assert re.search("двадцать второго|двадцать третьего|двадцать четвёртого", res)
-        assert re.search(
-            "января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря",
-            res,
-        )
-        assert re.search("года", res)
-        assert re.search("час|часов|часа", res)
-        assert re.search("минут", res)
-
-
 def test_messages():
-    messages = get_messages()
+    messages = MessageGenerator(random_seed=0)._get_messages()
     assert len(messages) > 2
     for m in messages:
         assert len(m) > 5
@@ -53,9 +26,27 @@ def test_messages():
 
 
 def test_template(snapshot: SnapshotTest):
-    html = generate_fortune_html(
-        "Кукареку!",
+    fortune = MorningFortuneGenerator(random_seed=0).generate(
+        wisdom="Кукареку!",
+        problems=["1 + 1 ="],
         asof=datetime(2022, 8, 4, 6, 45, tzinfo=ZoneInfo("Asia/Singapore")),
     )
+    html = MessageHtmlFormatter(random_seed=0).format(fortune)
     Path("generated.html").write_text(html, encoding="utf8")
     snapshot.assert_match(html)
+
+
+def test_arithmetic_problems(snapshot: SnapshotTest):
+    problems = ArithmeticProblemGenerator(random_seed=0).generate()
+    snapshot.assert_match([p.text for p in problems])
+
+
+def test_end_to_end():
+    result: subprocess.CompletedProcess = subprocess.run(
+        "poetry run python printer_keeper",
+        env=os.environ | {"IGNORE_PRINT": "1"},
+        capture_output=True,
+        text=True,
+    )
+    assert "Printing" in result.stderr
+    result.check_returncode()
