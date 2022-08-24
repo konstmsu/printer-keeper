@@ -1,6 +1,6 @@
 import logging
 
-from printer_keeper.fortune import main, logger
+from printer_keeper.fortune import logger, main
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,7 +13,6 @@ logging.basicConfig(
 
 try:
     main()
+    logger.info("Done")
 except:
     logger.exception("Application failed")
-
-logger.info("Done")
