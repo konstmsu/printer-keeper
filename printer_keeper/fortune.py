@@ -92,21 +92,3 @@ def main():
     # send to printer
     logger.info("Printing %s", pdf_path)
     os.startfile(pdf_path, "print")
-
-
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler("printer_keeper.log", encoding="utf8"),
-            logging.StreamHandler(),
-        ],
-    )
-
-    try:
-        main()
-    except:
-        logger.exception("Application failed")
-
-    logger.info("Done")
