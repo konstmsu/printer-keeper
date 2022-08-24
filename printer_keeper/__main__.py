@@ -1,5 +1,7 @@
 import logging
 
+import click
+
 from printer_keeper.fortune import logger, main
 
 logging.basicConfig(
@@ -11,8 +13,14 @@ logging.basicConfig(
     ],
 )
 
-try:
-    main()
-    logger.info("Done")
-except:
-    logger.exception("Application failed")
+
+@click.command
+def cli():
+    try:
+        main()
+        logger.info("Done")
+    except:
+        logger.exception("Application failed")
+
+
+cli()

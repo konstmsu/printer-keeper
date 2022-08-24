@@ -91,4 +91,7 @@ def main():
 
     # send to printer
     logger.info("Printing %s", pdf_path)
-    os.startfile(pdf_path, "print")
+    if os.environ.get("IGNORE_PRINT"):
+        logger.warn("Ignored print command")
+    else:
+        os.startfile(pdf_path, "print")
