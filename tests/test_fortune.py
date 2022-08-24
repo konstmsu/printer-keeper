@@ -1,7 +1,6 @@
 import random
+from printer_keeper.datetime_formatting import format_date, format_datetime
 from printer_keeper.fortune import (
-    format_date,
-    format_datetime,
     generate_fortune_html,
     get_messages,
 )
@@ -9,6 +8,7 @@ from pathlib import Path
 import re
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
+from snapshottest.pytest import SnapshotTest
 
 random.seed(42)
 
@@ -52,7 +52,7 @@ def test_messages():
     assert "Делу – время, потехе – час." in messages
 
 
-def test_template(snapshot):
+def test_template(snapshot: SnapshotTest):
     html = generate_fortune_html(
         "Кукареку!",
         asof=datetime(2022, 8, 4, 6, 45, tzinfo=ZoneInfo("Asia/Singapore")),
