@@ -40,7 +40,9 @@ class MorningFortuneGenerator:
         self.rnd = Random(random_seed)
 
     def generate(self, *, asof: datetime, wisdom: str, problems: List[str]):
-        problems_joined = "\n".join(problems)
+        problems_joined = "\n".join(
+            [f"□   {p}" for p in problems] + [f"Правильно:    из {len(problems)}"]
+        )
         return f"""Ура! Доброе утро!
 Сегодня у нас {format_date(asof, include_year=False)} {asof.year}.
 
