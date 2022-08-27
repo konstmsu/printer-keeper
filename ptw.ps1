@@ -1,1 +1,1 @@
-watchexec --print-events --ignore generated.html pytest
+watchexec --print-events pytest
