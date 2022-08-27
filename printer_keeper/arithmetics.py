@@ -13,14 +13,24 @@ class ArithmeticProblemGenerator:
         self.rnd = Random(random_seed)
 
     def generate(self):
-        yield self._sum()
-        yield self._sum()
-        yield self._difference()
-        yield self._difference()
-        yield self._multiplication()
-        yield self._multiplication()
-        yield self._division()
-        yield self._division()
+        def get():
+            yield self._sum()
+            yield self._sum()
+            yield self._difference()
+            yield self._difference()
+            yield self._multiplication()
+            yield self._multiplication()
+            yield self._division()
+            yield self._division()
+
+        for _i in range(1000):
+            problems = list(get())
+            if len(set([p.text for p in problems])) == len(problems):
+                return problems
+        else:
+            raise Exception(
+                f"Couldn't get all problems different even after {_i + 1} attempts"
+            )
 
     def _sum(self):
         a = self.rnd.randint(8, 20)
