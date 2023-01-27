@@ -10,6 +10,7 @@ from random import Random
 from typing import List
 
 from jinja2 import Environment, PackageLoader, select_autoescape
+from playwright.sync_api import sync_playwright
 
 from .arithmetics import ArithmeticProblemGenerator
 from .datetime_formatting import format_date
@@ -116,16 +117,13 @@ def main():
 
     # Convert to PDF. Or is there an easier way to print HTML?
     logger.info("Converting to PDF in %s", pdf_path)
-    subprocess.run(
-        [
-            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-            "--headless",
-            "--disable-gpu",
-            f"--print-to-pdf={pdf_path.absolute()}",
-            str(html_path.absolute()),
-        ],
-        check=True,
-    )
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page()
+        page.goto(html_path.absolute())
+        page.pdf(path=pdf_path)
+        browser.close()
 
     # send to printer
     logger.info("Printing %s", pdf_path)
