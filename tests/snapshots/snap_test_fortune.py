@@ -8,14 +8,12 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots['test_arithmetic_problems 1'] = [
-    '13 + 32 = ',
-    '13 + 18 = ',
-    '38 - 19 = ',
-    '24 - 6 = ',
-    '9 * 8 = ',
-    '3 * 4 = ',
-    '81 / 9 = ',
-    '56 / 8 = '
+    '1 + 8 = ',
+    '16 + 4 = ',
+    '9 + 4 = ',
+    '9 + 3 = ',
+    '8 - 1 = ',
+    '10 - 3 = '
 ]
 
 snapshots['test_template 1'] = '''<html>
