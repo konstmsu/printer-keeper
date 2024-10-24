@@ -1,8 +1,9 @@
-import os
 import random
 import subprocess
 from datetime import datetime
 from pathlib import Path
+
+import pytest
 from zoneinfo import ZoneInfo
 
 from printer_keeper.arithmetics import ArithmeticProblemGenerator
@@ -40,6 +41,7 @@ def test_arithmetic_problems(snapshot):
     assert snapshot == [p.text for p in problems]
 
 
+@pytest.mark.annoying
 def test_end_to_end():
     result: subprocess.CompletedProcess = subprocess.run(
         "uv run -m printer_keeper".split(),
