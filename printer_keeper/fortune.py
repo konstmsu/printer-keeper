@@ -128,7 +128,7 @@ def main():
     # send to printer
     logger.info("Printing %s", pdf_path)
     ignore_print = os.environ.get("IGNORE_PRINT", "0") == "1"
-    if os.name == 'nt':
+    if os.name == "nt":
         command = "open" if ignore_print else "print"
         os.startfile(pdf_path, command)
     else:
