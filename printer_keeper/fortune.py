@@ -29,8 +29,8 @@ class MessageGenerator:
     @cache
     def _get_messages(self):
         phrases = Path(__file__).parent / "phrases.txt"
-        stripped = [l.strip() for l in phrases.read_text(encoding="utf8").splitlines()]
-        return [l for l in stripped if l]
+        stripped = [x.strip() for x in phrases.read_text(encoding="utf8").splitlines()]
+        return [x for x in stripped if x]
 
     def generate(self) -> str:
         return self.rnd.choice(self._get_messages())
@@ -132,5 +132,5 @@ def main():
         command = "print" if send_to_printer else "open"
         os.startfile(pdf_path, command)
     else:
-        command =  "lpr" if send_to_printer else "open"
+        command = "lpr" if send_to_printer else "open"
         subprocess.run([command, pdf_path])

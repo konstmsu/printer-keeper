@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import date, datetime
 from typing import Literal
 
 
@@ -11,7 +11,7 @@ def format_date(d: date, *, include_year: bool) -> str:
         if d.year == 2024:
             return "две тысячи двадцать четвёртого"
         # TODO make generic
-        raise NotImplemented()
+        raise NotImplementedError
 
     months = [
         "января",
