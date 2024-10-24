@@ -1,1 +1,0 @@
-watchexec --print-events pytest
