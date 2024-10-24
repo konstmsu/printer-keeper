@@ -42,6 +42,7 @@ def test_arithmetic_problems(snapshot):
 
 
 @pytest.mark.annoying
+@pytest.mark.integration
 def test_end_to_end():
     result: subprocess.CompletedProcess = subprocess.run(
         "uv run -m printer_keeper".split(),
