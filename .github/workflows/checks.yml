@@ -21,10 +21,10 @@ jobs:
       run: uv sync --all-extras --dev
     
     - name: Analysing the code with ruff
-      run: ruff check $(git ls-files '*.py')
+      run: uv run ruff check $(git ls-files '*.py')
         
     - name: Analysing the code with pylint
-      run: pylint $(git ls-files '*.py')
+      run: uv run pylint $(git ls-files '*.py')
 
     - name: Running tests
       run: uv run pytest .
