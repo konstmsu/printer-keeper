@@ -28,8 +28,8 @@
     <key>WorkingDirectory</key>
     <string>/Users/ko/projects/printer-keeper</string>
     <key>StandardOutPath</key>
-    <string>printer_keeper.stdout</string>
+    <string>stdout.log</string>
     <key>StandardErrorPath</key>
-    <string>printer_keeper.stderr</string>
+    <string>stderr.log</string>
   </dict>
 </plist>

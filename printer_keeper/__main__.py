@@ -13,6 +13,8 @@ logging.basicConfig(
     ],
 )
 
+logger.info("Started")
+
 
 @click.command
 def cli():
