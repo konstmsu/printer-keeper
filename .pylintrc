@@ -3,6 +3,7 @@ ignore-paths=^.venv
 
 [MESSAGES CONTROL]
 disable=
+    fixme,
     line-too-long,
     missing-class-docstring,
     missing-function-docstring,
