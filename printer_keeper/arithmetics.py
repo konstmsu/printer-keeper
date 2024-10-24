@@ -24,12 +24,10 @@ class ArithmeticProblemGenerator:
 
         for _i in range(1000):
             problems = list(get())
-            if len(set([p.text for p in problems])) == len(problems):
+            if len({p.text for p in problems}) == len(problems):
                 return problems
-        else:
-            raise Exception(
-                f"Couldn't get all problems different even after {_i + 1} attempts"
-            )
+
+        raise RuntimeError(f"Couldn't get problems even after {_i + 1} attempts")
 
     def _sum(self):
         a = self.rnd.randint(0, 30)

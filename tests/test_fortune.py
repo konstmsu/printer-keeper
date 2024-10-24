@@ -17,7 +17,7 @@ random.seed(42)
 
 
 def test_messages():
-    messages = MessageGenerator(random_seed=0)._get_messages()
+    messages = MessageGenerator.all_messages()
     assert len(messages) > 2
     for m in messages:
         assert len(m) > 5
@@ -47,6 +47,7 @@ def test_end_to_end():
         "uv run -m printer_keeper".split(),
         capture_output=True,
         text=True,
+        check=True,
     )
     assert "Printing" in result.stderr
     result.check_returncode()

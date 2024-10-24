@@ -1,0 +1,11 @@
+[MAIN]
+ignore-paths=^.venv
+
+[MESSAGES CONTROL]
+disable=
+    line-too-long,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
+    too-few-public-methods,
+    wrong-import-order,

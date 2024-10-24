@@ -21,7 +21,7 @@ def cli():
     try:
         main()
         logger.info("Done")
-    except Exception:
+    except Exception:  # pylint: disable=broad-exception-caught
         logger.exception("Application failed")
 
 

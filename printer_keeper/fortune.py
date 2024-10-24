@@ -27,13 +27,14 @@ class MessageGenerator:
         self.rnd = Random(random_seed)
 
     @cache
-    def _get_messages(self):
+    @staticmethod
+    def all_messages():
         phrases = Path(__file__).parent / "phrases.txt"
         stripped = [x.strip() for x in phrases.read_text(encoding="utf8").splitlines()]
         return [x for x in stripped if x]
 
     def generate(self) -> str:
-        return self.rnd.choice(self._get_messages())
+        return self.rnd.choice(self.all_messages())
 
 
 class MorningFortuneGenerator:
@@ -130,7 +131,7 @@ def main():
     send_to_printer = os.environ.get("SEND_TO_PRINTER", "0") == "1"
     if os.name == "nt":
         command = "print" if send_to_printer else "open"
-        os.startfile(pdf_path, command)
+        os.startfile(pdf_path, command)  # pylint: disable=no-member
     else:
         command = "lpr" if send_to_printer else "open"
-        subprocess.run([command, pdf_path])
+        subprocess.run([command, pdf_path], check=True)
