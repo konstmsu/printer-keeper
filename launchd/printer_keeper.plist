@@ -20,11 +20,16 @@
         <integer>0</integer>
       </dict>
     </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>SEND_TO_PRINTER</key>
+      <string>1</string>
+    </dict>
     <key>WorkingDirectory</key>
     <string>/Users/ko/projects/printer-keeper</string>
     <key>StandardOutPath</key>
     <string>printer_keeper.stdout</string>
     <key>StandardErrorPath</key>
     <string>printer_keeper.stderr</string>
-    </dict>
+  </dict>
 </plist>

@@ -127,10 +127,10 @@ def main():
 
     # send to printer
     logger.info("Printing %s", pdf_path)
-    ignore_print = os.environ.get("IGNORE_PRINT", "0") == "1"
+    send_to_printer = os.environ.get("SEND_TO_PRINTER", "0") == "1"
     if os.name == "nt":
-        command = "open" if ignore_print else "print"
+        command = "print" if send_to_printer else "open"
         os.startfile(pdf_path, command)
     else:
-        command = "open" if ignore_print else "lpr"
+        command =  "lpr" if send_to_printer else "open"
         subprocess.run([command, pdf_path])

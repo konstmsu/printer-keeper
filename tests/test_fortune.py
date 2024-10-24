@@ -43,7 +43,6 @@ def test_arithmetic_problems(snapshot):
 def test_end_to_end():
     result: subprocess.CompletedProcess = subprocess.run(
         "uv run -m printer_keeper".split(),
-        env=os.environ | {"IGNORE_PRINT": "1"},
         capture_output=True,
         text=True,
     )
