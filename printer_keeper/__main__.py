@@ -21,7 +21,7 @@ def cli():
     try:
         main()
         logger.info("Done")
-    except:
+    except Exception:
         logger.exception("Application failed")
 
 
