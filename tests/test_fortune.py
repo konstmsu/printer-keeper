@@ -11,7 +11,6 @@ from printer_keeper.fortune import (
     MessageHtmlFormatter,
     MorningFortuneGenerator,
 )
-from snapshottest.pytest import SnapshotTest
 
 random.seed(42)
 
@@ -25,7 +24,7 @@ def test_messages():
     assert "Делу – время, потехе – час." in messages
 
 
-def test_template(snapshot: SnapshotTest):
+def test_template(snapshot):
     fortune = MorningFortuneGenerator(random_seed=0).generate(
         wisdom="Кукареку!",
         problems=["1 + 1 ="],
@@ -33,17 +32,17 @@ def test_template(snapshot: SnapshotTest):
     )
     html = MessageHtmlFormatter(random_seed=0).format(fortune)
     Path("generated.html").write_text(html, encoding="utf8")
-    snapshot.assert_match(html)
+    assert snapshot == html
 
 
-def test_arithmetic_problems(snapshot: SnapshotTest):
+def test_arithmetic_problems(snapshot):
     problems = ArithmeticProblemGenerator(random_seed=0).generate()
-    snapshot.assert_match([p.text for p in problems])
+    assert snapshot == [p.text for p in problems]
 
 
 def test_end_to_end():
     result: subprocess.CompletedProcess = subprocess.run(
-        "poetry run python printer_keeper",
+        "uv run -m printer_keeper".split(),
         env=os.environ | {"IGNORE_PRINT": "1"},
         capture_output=True,
         text=True,
