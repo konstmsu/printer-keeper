@@ -121,10 +121,16 @@ def main():
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page()
-        page.goto(html_path.absolute())
+        page.goto(html_path.as_uri())
         page.pdf(path=pdf_path)
         browser.close()
 
     # send to printer
     logger.info("Printing %s", pdf_path)
-    os.startfile(pdf_path, "open" if os.environ.get("IGNORE_PRINT") else "print")
+    ignore_print = os.environ.get("IGNORE_PRINT", "0") == "1"
+    if os.name == 'nt':
+        command = "open" if ignore_print else "print"
+        os.startfile(pdf_path, command)
+    else:
+        command = "open" if ignore_print else "lpr"
+        subprocess.run([command, pdf_path])
