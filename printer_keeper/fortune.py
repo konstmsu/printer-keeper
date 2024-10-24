@@ -34,7 +34,7 @@ class MessageGenerator:
         return [x for x in stripped if x]
 
     def generate(self) -> str:
-        return self.rnd.choice(self.all_messages())
+        return self.rnd.choice(MessageGenerator.all_messages())
 
 
 class MorningFortuneGenerator:
