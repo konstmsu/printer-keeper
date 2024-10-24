@@ -16,10 +16,12 @@ class ArithmeticProblemGenerator:
         def get():
             yield self._sum()
             yield self._sum()
-            yield self._sum()
-            yield self._sum()
             yield self._difference()
             yield self._difference()
+            yield self._multiplication()
+            yield self._multiplication()
+            yield self._division()
+            yield self._division()
 
         for _i in range(1000):
             problems = list(get())
@@ -31,27 +33,23 @@ class ArithmeticProblemGenerator:
             )
 
     def _sum(self):
-        while True:
-            a = self.rnd.randint(0, 20)
-            b = self.rnd.randint(0, 20)
-            if a + b <= 20:
-                return ArithmeticProblem(f"{a} + {b} = ")
+        a = self.rnd.randint(0, 30)
+        b = self.rnd.randint(0, 30)
+        return ArithmeticProblem(f"{a} + {b} = ")
 
     def _difference(self):
         while True:
-            a = self.rnd.randint(0, 10)
-            b = self.rnd.randint(0, 10)
+            a = self.rnd.randint(0, 30)
+            b = self.rnd.randint(0, 30)
             if 0 <= a - b:
                 return ArithmeticProblem(f"{a} - {b} = ")
 
     def _multiplication(self):
-        while True:
-            a = self.rnd.randint(3, 9)
-            b = self.rnd.randint(4, 9)
-            return ArithmeticProblem(f"{a} * {b} = ")
+        a = self.rnd.randint(3, 9)
+        b = self.rnd.randint(4, 9)
+        return ArithmeticProblem(f"{a} * {b} = ")
 
     def _division(self):
-        while True:
-            a = self.rnd.randint(4, 9)
-            b = self.rnd.randint(3, 9)
-            return ArithmeticProblem(f"{a * b} / {b} = ")
+        a = self.rnd.randint(4, 9)
+        b = self.rnd.randint(3, 9)
+        return ArithmeticProblem(f"{a * b} / {b} = ")

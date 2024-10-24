@@ -1,12 +1,14 @@
 # serializer version: 1
 # name: test_arithmetic_problems
   list([
-    '1 + 8 = ',
-    '16 + 4 = ',
     '9 + 4 = ',
-    '9 + 3 = ',
-    '8 - 1 = ',
-    '10 - 3 = ',
+    '24 + 3 = ',
+    '25 - 19 = ',
+    '28 - 4 = ',
+    '5 * 4 = ',
+    '8 * 4 = ',
+    '45 / 5 = ',
+    '49 / 7 = ',
   ])
 # ---
 # name: test_template
