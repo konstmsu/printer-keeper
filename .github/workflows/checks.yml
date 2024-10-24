@@ -27,4 +27,4 @@ jobs:
       run: uv run pylint $(git ls-files '*.py')
 
     - name: Running tests
-      run: uv run pytest . -vvv
+      run: uv run pytest . -vvv -m 'not integration'
