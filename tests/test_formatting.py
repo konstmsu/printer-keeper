@@ -21,7 +21,7 @@ def test_format_datetime():
         format_datetime(datetime(2023, 9, 29, 1, 31))
         == "двадцать девятое сентября две тысячи двадцать третьего года, один час тридцать одна минута"
     )
-    for i in range(0, 1000):
+    for i in range(1000):
         dt = datetime(2022, 1, 1, 13, 45) + timedelta(days=i, minutes=i)
         res = format_datetime(dt)
         assert re.search("двадцать второго|двадцать третьего|двадцать четвёртого", res)
@@ -32,3 +32,10 @@ def test_format_datetime():
         assert re.search("года", res)
         assert re.search("час|часов|часа", res)
         assert re.search("минут", res)
+
+
+def test_format_regressions(snapshot):
+    for i in range(1000):
+        dt = datetime(2024, 1, 1, 6, 0) + timedelta(days=i, minutes=i)
+        res = format_datetime(dt)
+        assert snapshot == res

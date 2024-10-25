@@ -10,6 +10,10 @@ def format_date(d: date, *, include_year: bool) -> str:
             return "две тысячи двадцать третьего"
         if d.year == 2024:
             return "две тысячи двадцать четвёртого"
+        if d.year == 2025:
+            return "две тысячи двадцать пятого"
+        if d.year == 2026:
+            return "две тысячи двадцать шестого"
         # TODO make generic
         raise NotImplementedError
 
