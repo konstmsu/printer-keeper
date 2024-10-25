@@ -6,9 +6,8 @@ uv run ptw .
 uv run ptw . -m "not annoying" --snapshot-update
 ```
 
-### Outdated
+GitHub Actions
 
 ```sh
-poetry install
-poetry run python printer_keeper
+act push
 ```
