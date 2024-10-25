@@ -1,4 +1,4 @@
-name: Pylint
+name: Checks
 
 on: [push]
 
@@ -17,14 +17,14 @@ jobs:
       with:
         python-version-file: ".python-version"
           
-    - name: Creating environment
+    - name: Create environment
       run: uv sync --all-extras --dev
     
-    - name: Analysing the code with ruff
+    - name: Run ruff
       run: uv run ruff check $(git ls-files '*.py')
         
-    - name: Analysing the code with pylint
+    - name: Run pylint
       run: uv run pylint $(git ls-files '*.py')
 
-    - name: Running tests
+    - name: Run pytest
       run: uv run pytest . -vvv -m 'not integration'
