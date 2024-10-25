@@ -9,6 +9,7 @@ from pathlib import Path
 from random import Random
 from typing import List
 
+import colorcet as cc
 from jinja2 import Environment, PackageLoader, select_autoescape
 from playwright.sync_api import sync_playwright
 
@@ -61,33 +62,13 @@ class MessageHtmlFormatter:
     def __init__(self, *, random_seed: int = None):
         self.rnd = Random(random_seed)
 
-    def _random_color(self):
-        # TODO make random colors given contrast is high enough
-        return self.rnd.choice(
-            [
-                "black",
-                "red",
-                "green",
-                "blue",
-                "#77450D",
-                "#96290D",
-                "#A82255",
-                "#5C255C",
-                "#5642A6",
-                "#0C5174",
-                "#004D46",
-                "#1D7324",
-                "#5A701A",
-                "#866103",
-                "#7A542E",
-            ]
-        )
-
     def format(self, message: str) -> str:
+        palette = cc.glasbey_dark[:10]
+
         def format_part(m: re.Match):
             word = m.group("word")
             if word:
-                return f"<span style='color:{self._random_color()}'>{word}</span>"
+                return f"<span style='color:{(self.rnd.choice(palette))}'>{word}</span>"
             return m[0]
 
         parts = [
