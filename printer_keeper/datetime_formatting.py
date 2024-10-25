@@ -4,18 +4,13 @@ from typing import Literal
 
 def format_date(d: date, *, include_year: bool) -> str:
     def year():
-        if d.year == 2022:
-            return "две тысячи двадцать второго"
-        if d.year == 2023:
-            return "две тысячи двадцать третьего"
-        if d.year == 2024:
-            return "две тысячи двадцать четвёртого"
-        if d.year == 2025:
-            return "две тысячи двадцать пятого"
-        if d.year == 2026:
-            return "две тысячи двадцать шестого"
-        # TODO make generic
-        raise NotImplementedError
+        return {
+            2022: "две тысячи двадцать второго",
+            2023: "две тысячи двадцать третьего",
+            2024: "две тысячи двадцать четвёртого",
+            2025: "две тысячи двадцать пятого",
+            2026: "две тысячи двадцать шестого",
+        }[d.year]
 
     months = [
         "января",
