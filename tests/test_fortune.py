@@ -50,5 +50,5 @@ def test_end_to_end():
         text=True,
         check=True,
     )
-    assert "Printing" in result.stderr
+    assert "send_to_printer=False" in result.stderr
     result.check_returncode()

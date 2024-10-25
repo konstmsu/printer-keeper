@@ -127,8 +127,9 @@ def main():
         browser.close()
 
     # send to printer
-    logger.info("Printing %s", pdf_path)
     send_to_printer = os.environ.get("SEND_TO_PRINTER", "0") == "1"
+    logger.info(f"{send_to_printer=} {pdf_path=}")
+
     if os.name == "nt":
         command = "print" if send_to_printer else "open"
         os.startfile(pdf_path, command)  # pylint: disable=no-member
