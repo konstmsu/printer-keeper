@@ -88,17 +88,17 @@ def main():
     message = MessageGenerator().generate()
     arithmetic_problems = ArithmeticProblemGenerator().generate()
 
-    logger.info("Generating fortune asof %s for %s", message, asof)
+    logger.info(f"Generating fortune {asof=!s} {message=}")
     fortune = MorningFortuneGenerator().generate(
         wisdom=message, asof=asof, problems=[p.text for p in arithmetic_problems]
     )
 
-    logger.info("Writing HTML to %s", html_path)
+    logger.info(f"Writing HTML {html_path=}")
     html = MessageHtmlFormatter().format(fortune)
     html_path.write_text(html, encoding="utf8")
 
     # Convert to PDF. Or is there an easier way to print HTML?
-    logger.info("Converting to PDF in %s", pdf_path)
+    logger.info(f"Converting to PDF {pdf_path=}")
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -109,7 +109,7 @@ def main():
 
     # send to printer
     send_to_printer = os.environ.get("SEND_TO_PRINTER", "0") == "1"
-    logger.info(f"{send_to_printer=} {pdf_path=}")
+    logger.info(f"{send_to_printer=}")
 
     if os.name == "nt":
         command = "print" if send_to_printer else "open"
