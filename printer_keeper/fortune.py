@@ -115,5 +115,8 @@ def main():
         command = "print" if send_to_printer else "open"
         os.startfile(pdf_path, command)  # pylint: disable=no-member
     else:
-        command = "lpr" if send_to_printer else "open"
-        subprocess.run([command, pdf_path], check=True)
+        if send_to_printer:
+            subprocess.run(["cupsenable", "Canon_G6000_series"])
+            subprocess.run(["lpr", pdf_path], check=True)
+        else:
+            subprocess.run(["open", pdf_path], check=True)
